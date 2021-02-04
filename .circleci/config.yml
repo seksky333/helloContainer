@@ -4,21 +4,18 @@ orbs:
   python: circleci/python@0.2.1
 
 jobs:
-  build:
+  build-and-test:
     executor: python/default
     steps:
       - checkout
+      - python/load-cache
+      - python/install-deps
+      - python/save-cache
       - run:
-          name: install dependencies  
-          command: |
-            make install
-            
-      - run:
-          name: run lint  
-          command: |
-            make lint
+          command: ./manage.py test
+          name: Test
 
 workflows:
   main:
     jobs:
-      - build
+      - build-and-test
