@@ -1,0 +1,24 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@0.2.1
+
+jobs:
+  build:
+    executor: python/default
+    steps:
+      - checkout
+      - run:
+          name: install dependencies  
+          command: |
+            make install
+            
+      - run:
+          name: run lint  
+          command: |
+            make lint
+
+workflows:
+  main:
+    jobs:
+      - build
